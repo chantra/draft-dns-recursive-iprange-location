@@ -4,7 +4,7 @@ docName = "draft-bretelle-dnsop-recursive-iprange-location-latest"
 abbrev = "dns-recursive-iploc"
 category = "std"
 
-stand_alone: true
+stand_alone = "yes"
 
 ipr = "trust200902"
 area = "Internet"
@@ -21,9 +21,10 @@ initials = "E."
 surname = "Bretelle"
 fullname = "Emmanuel Bretelle"
 organization = "Facebook"
-[author.address]
- email = "chantra@fb.com"
+  [author.address]
+  email = "chantra@fb.com"
 
+%%%
 
 .# Abstract
 
@@ -50,6 +51,6 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Security Considerations
 
-.# Acknowledgments
+# Acknowledgments
 
 {backmatter}
