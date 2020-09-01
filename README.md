@@ -31,6 +31,7 @@ Or sometimes, it may just be a CSV document shared over emails.
 
 * Using an [underscored name](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#underscored-globally-scoped-dns-node-names), one could query this name under an organization's owned name and either receive a list of IP ranges/locations (ala Google Public DNS), or a URI to a location where to get that list.
 * Formats of the lists should be defined so entities consuming those can do so in a uniform way.
+* Highlighted by wkumari in DNS OARC's mattermost: IP range holder to list the URL to a Geofeeds serve using the inetnum object [OpsAWG list thread](https://mailarchive.ietf.org/arch/msg/opsawg/cbwW1YqibIV5EoGxDG0ggqlFVt4/) [drafty-mbk-opsawg-finding-geofeeds](https://tools.ietf.org/html/draft-ymbk-opsawg-finding-geofeeds-00)
 
 ## Building the Draft
 
