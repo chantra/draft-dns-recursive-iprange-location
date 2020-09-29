@@ -1,0 +1,224 @@
+
+
+
+
+dnsop                                                        E. Bretelle
+Internet-Draft                                                  Facebook
+Intended status: Standards Track                          28 August 2020
+Expires: 1 March 2021
+
+
+                           Recursive Resolver
+         draft-bretelle-dnsop-recursive-iprange-location-latest
+
+Abstract
+
+   This document specifies a way for recursive resolvers operators to
+   signal the IP ranges and locations used by their server pools.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/chantra/draft-dns-recursive-iprange-location.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 1 March 2021.
+
+Copyright Notice
+
+   Copyright (c) 2020 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+
+
+
+Bretelle                  Expires 1 March 2021                  [Page 1]
+
+Internet-Draft             dns-recursive-iploc               August 2020
+
+
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   3
+   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
+   4.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   3
+     5.2.  Informative References  . . . . . . . . . . . . . . . . .   3
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
+
+1.  Introduction
+
+   Big distributed recursive resolver pools tend to be distributed
+   across the world, operating under multiple countries and possibly
+   using IP ranges for which the country is not necessarily perfectly
+   matching the location of the service.  This has lead to sub-optimal
+   answers being returned to those server pools.  An solution to this
+   problem has been to use EDNS Client Subnet (ECS) [RFC7871], but this
+   require support from both the recursive resolvers and the name
+   servers authorities, comes with its own Security Considerations, and
+   increased resources usage.
+
+   DNS server operators are commonly receiving spoofed DNS traffic over
+   UDP, common techniques have been to reply with TC bit set to force
+   legitimate clients to use TCP, if the load is still too high, they
+   may start to drop traffic from selected subnets.  While this may
+   protect their resources, it has the possibility of denying the
+   service to legitimate resolvers.
+
+   So far, operators have resorted to ad-hoc mechanism, ranging from
+   exchanging list by email, providing IP ranges and location via
+   webpages, or specific DNS queries, like Google Public DNS
+   (https://developers.google.com/speed/public-dns/faq#locations_of_ip_a
+   ddress_ranges_google_public_dns_uses_to_send_queries), or Cloudflare
+   (https://www.cloudflare.com/ips/), or OpenDNS
+   (https://www.opendns.com/data-center-locations/).  When web pages are
+   available, they are rarely found at consistent locations, neither are
+   they formatted in a uniform way, essentially making name server
+   operators' task rather complicated and brittle.
+
+
+
+
+
+
+
+Bretelle                  Expires 1 March 2021                  [Page 2]
+
+Internet-Draft             dns-recursive-iploc               August 2020
+
+
+   This document helps providing uniform solutions to let recursive
+   server operators distribute the list of IP ranges under which their
+   servers are operating as well as possibly location up to the postal
+   code granularity by leveraging [RFC8805] format
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Security Considerations
+
+4.  Acknowledgments
+
+   The authors would like to thank the following individuals for their
+   useful input: John Todd.
+
+5.  References
+
+5.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8805]  Kline, E., Duleba, K., Szamonek, Z., Moser, S., and W.
+              Kumari, "A Format for Self-Published IP Geolocation
+              Feeds", RFC 8805, DOI 10.17487/RFC8805, August 2020,
+              <https://www.rfc-editor.org/info/rfc8805>.
+
+5.2.  Informative References
+
+   [RFC7871]  Contavalli, C., van der Gaast, W., Lawrence, D., and W.
+              Kumari, "Client Subnet in DNS Queries", RFC 7871,
+              DOI 10.17487/RFC7871, May 2016,
+              <https://www.rfc-editor.org/info/rfc7871>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+Author's Address
+
+
+
+
+
+Bretelle                  Expires 1 March 2021                  [Page 3]
+
+Internet-Draft             dns-recursive-iploc               August 2020
+
+
+   Emmanuel Bretelle
+   Facebook
+
+   Email: chantra@fb.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bretelle                  Expires 1 March 2021                  [Page 4]

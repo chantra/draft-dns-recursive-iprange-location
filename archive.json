@@ -1,0 +1,71 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2020-09-29T00:49:47.224005+00:00",
+  "repo": "chantra/draft-dns-recursive-iprange-location",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU2ODgzMjAyMjI=",
+      "title": "Mechanism to distribute list of ip ranges",
+      "url": "https://github.com/chantra/draft-dns-recursive-iprange-location/issues/1",
+      "state": "OPEN",
+      "author": "chantra",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "Likely bootstrapped off DNS by using an underscored prefix (say _rdnsipranges.example.com)\r\n\r\nOne approach would be to leverage good old TXT record. One needs to be wary about the potential size of this record and force TC to avoid amplification. This could be prevented by using a URI mechanism (via specially formatted TXT or actually leveraging a [URI RR type (RFC7553)](https://tools.ietf.org/html/rfc7553)?\r\n\r\nThat URI could lead to a [IP Geolocation feed (RFC8805)](https://tools.ietf.org/html/rfc8805).\r\n\r\nIf TXT, it could probably take the form of \"rfc8805:https://example.com/feed ips:2001:db8::/32|iata ips:198.51.100.0/24|iata\"....\r\n\r\nCapturing this here as it would make a natural contender: [Lists of Address Prefixes (APL RR)](https://tools.ietf.org/html/rfc3123), but this would limit to IP ranges only.",
+      "createdAt": "2020-08-28T19:49:34Z",
+      "updatedAt": "2020-08-28T19:49:34Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": []
+}
