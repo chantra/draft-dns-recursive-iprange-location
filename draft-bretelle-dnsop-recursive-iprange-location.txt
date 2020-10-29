@@ -249,9 +249,11 @@ Internet-Draft             dns-recursive-iploc              October 2020
 
    Name: uri
 
-   ~~~ ascii-art +--------------+----------------+ | SvcParamKey |
-   TBD | | Meaning | URI to an IP Geolocation feed | | Reference | This
-   document | +--------------+----------------+
+             +--------------+----------------+
+             | SvcParamKey  |  TBD           |
+             | Meaning      | URI to an IP Geolocation feed |
+             | Reference    | This document  |
+             +--------------+----------------+
 
 6.  Acknowledgments
 
@@ -269,10 +271,8 @@ Internet-Draft             dns-recursive-iploc              October 2020
               dnsop-svcb-https-01, 13 July 2020, <http://www.ietf.org/
               internet-drafts/draft-ietf-dnsop-svcb-https-01.txt>.
 
-   [ISO.3166.1alpha2]
-              ISO, "ISO 3166-1 decoding table",
-              <http://www.iso.org/iso/home/standards/country_codes/iso-
-              3166-1_decoding_table.htm>.
+
+
 
 
 
@@ -281,6 +281,11 @@ Bretelle                   Expires 1 May 2021                   [Page 5]
 
 Internet-Draft             dns-recursive-iploc              October 2020
 
+
+   [ISO.3166.1alpha2]
+              ISO, "ISO 3166-1 decoding table",
+              <http://www.iso.org/iso/home/standards/country_codes/iso-
+              3166-1_decoding_table.htm>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -314,11 +319,6 @@ Author's Address
    Facebook
 
    Email: chantra@fb.com
-
-
-
-
-
 
 
 
