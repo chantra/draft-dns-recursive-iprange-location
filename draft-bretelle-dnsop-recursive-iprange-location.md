@@ -1,5 +1,5 @@
 %%%
-title = "Recursive Resolver "
+title = "Recursive Resolvers IP Ranges location distribution and discovery"
 docName = "draft-bretelle-dnsop-recursive-iprange-location-latest"
 abbrev = "dns-recursive-iploc"
 category = "std"
@@ -64,13 +64,15 @@ The record is made of a list of space separated IP ranges with optional comma se
 
 This example illustrate a record without geolocation:
 ```
-_rdns.example.com. 3600 IN TXT "192.0.2.0/24 198.51.100.0/24 2001:db8::/56 2001:db8:00:ab00::/56"
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24 198.51.100.0/24 2001:db8::/56 "
+                               "2001:db8:00:ab00::/56"
 ```
 
 This example illustrate a record with geolocation information:
 
 ```
-_rdns.example.com. 3600 IN TXT "192.0.2.0/24,xa 198.51.100.0/24,xb 2001:db8::/56,xc 2001:db8:00:ab00::/56,xa"
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24,xa 198.51.100.0/24,xb "
+                               "2001:db8::/56,xc 2001:db8:00:ab00::/56,xa"
 ```
 
 As the number of IP ranges increases, the size of the DNS response can become a source for amplification attacks. This is being discussed in (#security).
@@ -125,11 +127,11 @@ is a string encoded as UTF-8 characters.
 Name:  uri
 
 ~~~ ascii-art
-+--------------+----------------+
-| SvcParamKey  |  TBD           |
++--------------+-------------------------------+
+| SvcParamKey  | TBD                           |
 | Meaning      | URI to an IP Geolocation feed |
-| Reference    | This document  |
-+--------------+----------------+
+| Reference    | This document                 |
++--------------+-------------------------------+
 ~~~
 
 # Acknowledgments
@@ -146,3 +148,11 @@ The authors would like to thank the following individuals for their useful input
 </reference>
 
 {backmatter}
+
+
+# Document history
+
+## Changes between -00 and -01
+
+* Editorial change: making the title more explicit than "Recursive Resolver"
+* Editorial change: Fix examples format to use break lines and fix ascii art table
