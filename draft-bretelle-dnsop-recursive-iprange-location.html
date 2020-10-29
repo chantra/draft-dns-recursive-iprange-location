@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Recursive Resolver</title>
+<title>Recursive Resolvers IP Ranges location distribution and discovery</title>
 <meta content="Emmanuel Bretelle" name="author">
 <meta content="
        This document specifies a way for recursive resolvers operators to signal the IP ranges and locations used by their server pools.
@@ -823,7 +823,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bretelle</td>
-<td class="center">Expires 1 May 2021</td>
+<td class="center">Expires 2 May 2021</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -836,12 +836,12 @@ address div.right {
 <dd class="internet-draft">draft-bretelle-dnsop-recursive-iprange-location-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2020-10-28" class="published">28 October 2020</time>
+<time datetime="2020-10-29" class="published">29 October 2020</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2021-05-01">1 May 2021</time></dd>
+<dd class="expires"><time datetime="2021-05-02">2 May 2021</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -851,7 +851,7 @@ address div.right {
 </dd>
 </dl>
 </div>
-<h1 id="title">Recursive Resolver</h1>
+<h1 id="title">Recursive Resolvers IP Ranges location distribution and discovery</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document specifies a way for recursive resolvers operators to signal the IP ranges and locations used by their server pools.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -883,7 +883,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 May 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 May 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -958,7 +958,15 @@ address div.right {
             </ul>
 </li>
           <li class="ulEmpty toc compact" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-appendix.a" class="xref">Appendix A</a>.  <a href="#name-document-history" class="xref">Document history</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-a.1" class="xref">A.1</a>.  <a href="#name-changes-between-00-and-01" class="xref">Changes between -00 and -01</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </nav>
@@ -1002,13 +1010,15 @@ An entity can share IP information in 2 ways: via an IP Geolocation Feed, or lis
 <p id="section-3.1-4">This example illustrate a record without geolocation:<a href="#section-3.1-4" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignCenter" id="section-3.1-5">
 <pre>
-_rdns.example.com. 3600 IN TXT "192.0.2.0/24 198.51.100.0/24 2001:db8::/56 2001:db8:00:ab00::/56"
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24 198.51.100.0/24 2001:db8::/56 "
+                               "2001:db8:00:ab00::/56"
 </pre><a href="#section-3.1-5" class="pilcrow">¶</a>
 </div>
 <p id="section-3.1-6">This example illustrate a record with geolocation information:<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignCenter" id="section-3.1-7">
 <pre>
-_rdns.example.com. 3600 IN TXT "192.0.2.0/24,xa 198.51.100.0/24,xb 2001:db8::/56,xc 2001:db8:00:ab00::/56,xa"
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24,xa 198.51.100.0/24,xb "
+                               "2001:db8::/56,xc 2001:db8:00:ab00::/56,xa"
 </pre><a href="#section-3.1-7" class="pilcrow">¶</a>
 </div>
 <p id="section-3.1-8">As the number of IP ranges increases, the size of the DNS response can become a source for amplification attacks. This is being discussed in <a href="#security" class="xref">Section 4</a>.<a href="#section-3.1-8" class="pilcrow">¶</a></p>
@@ -1081,11 +1091,11 @@ is a string encoded as UTF-8 characters.<a href="#section-5.2-2" class="pilcrow"
 <p id="section-5.2-3">Name:  uri<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <div class="artwork art-text alignCenter art-ascii-art" id="section-5.2-4">
 <pre>
-+--------------+----------------+
-| SvcParamKey  |  TBD           |
++--------------+-------------------------------+
+| SvcParamKey  | TBD                           |
 | Meaning      | URI to an IP Geolocation feed |
-| Reference    | This document  |
-+--------------+----------------+
+| Reference    | This document                 |
++--------------+-------------------------------+
 </pre><a href="#section-5.2-4" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1147,8 +1157,28 @@ is a string encoded as UTF-8 characters.<a href="#section-5.2-2" class="pilcrow"
 </dl>
 </section>
 </section>
-<div id="authors-addresses">
+<div id="document-history">
 <section id="section-appendix.a">
+      <h2 id="name-document-history">
+<a href="#section-appendix.a" class="section-number selfRef">Appendix A. </a><a href="#name-document-history" class="section-name selfRef">Document history</a>
+      </h2>
+<div id="changes-between-00-and-01">
+<section id="section-a.1">
+        <h2 id="name-changes-between-00-and-01">
+<a href="#section-a.1" class="section-number selfRef">A.1. </a><a href="#name-changes-between-00-and-01" class="section-name selfRef">Changes between -00 and -01</a>
+        </h2>
+<ul class="normal">
+<li class="normal" id="section-a.1-1.1">Editorial change: making the title more explicit than "Recursive Resolver"<a href="#section-a.1-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-a.1-1.2">Editorial change: Fix examples format to use break lines and fix ascii art table<a href="#section-a.1-1.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="section-appendix.b">
       <h2 id="name-authors-address">
 <a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
       </h2>
