@@ -4,8 +4,8 @@
 
 dnsop                                                        E. Bretelle
 Internet-Draft                                                  Facebook
-Intended status: Standards Track                          28 August 2020
-Expires: 1 March 2021
+Intended status: Standards Track                         28 October 2020
+Expires: 1 May 2021
 
 
                            Recursive Resolver
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 March 2021.
+   This Internet-Draft will expire on 1 May 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Bretelle                  Expires 1 March 2021                  [Page 1]
+Bretelle                   Expires 1 May 2021                   [Page 1]
 
-Internet-Draft             dns-recursive-iploc               August 2020
+Internet-Draft             dns-recursive-iploc              October 2020
 
 
    extracted from this document must include Simplified BSD License text
@@ -66,12 +66,18 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   3
-   3.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
-   4.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   3
-   5.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     5.1.  Normative References  . . . . . . . . . . . . . . . . . .   3
-     5.2.  Informative References  . . . . . . . . . . . . . . . . .   3
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Publishing Resolver pool IP ranges  . . . . . . . . . . . . .   3
+     3.1.  TXT Resource Record . . . . . . . . . . . . . . . . . . .   3
+     3.2.  HTTPS Resource Record . . . . . . . . . . . . . . . . . .   4
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   5.  IANA Consideration  . . . . . . . . . . . . . . . . . . . . .   4
+     5.1.  Underscored Node Name . . . . . . . . . . . . . . . . . .   4
+     5.2.  URI DNS Service Parameter . . . . . . . . . . . . . . . .   5
+   6.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .   5
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -92,6 +98,22 @@ Table of Contents
    protect their resources, it has the possibility of denying the
    service to legitimate resolvers.
 
+
+
+
+
+
+
+
+
+
+
+
+Bretelle                   Expires 1 May 2021                   [Page 2]
+
+Internet-Draft             dns-recursive-iploc              October 2020
+
+
    So far, operators have resorted to ad-hoc mechanism, ranging from
    exchanging list by email, providing IP ranges and location via
    webpages, or specific DNS queries, like Google Public DNS
@@ -103,21 +125,10 @@ Table of Contents
    they formatted in a uniform way, essentially making name server
    operators' task rather complicated and brittle.
 
-
-
-
-
-
-
-Bretelle                  Expires 1 March 2021                  [Page 2]
-
-Internet-Draft             dns-recursive-iploc               August 2020
-
-
    This document helps providing uniform solutions to let recursive
    server operators distribute the list of IP ranges under which their
    servers are operating as well as possibly location up to the postal
-   code granularity by leveraging [RFC8805] format
+   code granularity by leveraging [RFC8805] format.
 
 2.  Conventions and Definitions
 
@@ -127,16 +138,149 @@ Internet-Draft             dns-recursive-iploc               August 2020
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+3.  Publishing Resolver pool IP ranges
 
-4.  Acknowledgments
+   An entity willing to share the IP ranges used by their recursive
+   servers would publish a record under the special name
+   "_rdns.example.com".  The IP ranges can be distributed either using a
+   "TXT" record or "HTTPS" resource record [I-D.ietf-dnsop-svcb-https]
+   An entity can share IP information in 2 ways: via an IP Geolocation
+   Feed, or list of IP ranges in a TXT record.
+
+3.1.  TXT Resource Record
+
+   An entity that wishes to share the IP ranges they are using with
+   their recursive resolvers can distribute it via a TXT record.
+
+   The record is expressed as a single line of text found in the RDATA.
+   Multiple TXT resource records for the same owner name may be
+   permitted.
+
+   The record is made of a list of space separated IP ranges with
+   optional comma separated Geolocation.  The Geolocation field MUST be
+   a 2-letter ISO country code conforming to ISO 3166-1 alpha 2
+   [ISO.3166.1alpha2].  Parsers SHOULD treat this field case-
+   insensitively.
+
+
+
+
+Bretelle                   Expires 1 May 2021                   [Page 3]
+
+Internet-Draft             dns-recursive-iploc              October 2020
+
+
+   This example illustrate a record without geolocation:
+
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24 198.51.100.0/24 2001:db8::/56 2001:db8:00:ab00::/56"
+
+   This example illustrate a record with geolocation information:
+
+_rdns.example.com. 3600 IN TXT "192.0.2.0/24,xa 198.51.100.0/24,xb 2001:db8::/56,xc 2001:db8:00:ab00::/56,xa"
+
+   As the number of IP ranges increases, the size of the DNS response
+   can become a source for amplification attacks.  This is being
+   discussed in Section 4.
+
+3.2.  HTTPS Resource Record
+
+   Another approach is share an IP geolocation feed [RFC8805] via an
+   HTTPS Resource Record [I-D.ietf-dnsop-svcb-https].  This record has
+   the benefit of providing a format which can provide more granularity
+   if the entity sharing it wishes to, and can scale even when the
+   number of IP ranges increases.
+
+    _rdns.example.com. 3600 IN HTTPS . (
+                                  uri=https://foo.example.com/geofeed )
+
+4.  Security Considerations
+
+   Unless the record is DNSSEC-signed [RFC4033], the answers returned
+   cannot be trusted.  In HTTPS Resource Record is requested, the client
+   can possibly trust the content if the URI is within the same zone
+   cut, and HTTPS can authenticate the domain.
+
+   When using the TXT Resource Record, the answer returned can quickly
+   become big and the name server operator should aggressively limit the
+   size of the answer it will return to the client, and Truncate it if
+   needed.
+
+5.  IANA Consideration
+
+5.1.  Underscored Node Name
+
+   This document updates the IANA registry "Underscored and Globally
+   Scoped DNS Node Names" at https://www.iana.org/assignments/dns-
+   parameters/dns-parameters.xhtml#underscored-globally-scoped-dns-node-
+   names
+
+   The following entries have been added to the registry:
+
+
+
+
+
+
+Bretelle                   Expires 1 May 2021                   [Page 4]
+
+Internet-Draft             dns-recursive-iploc              October 2020
+
+
+                     +--------------+----------------+
+                     | RR Type      | HTTPS          |
+                     | Node Name    | _rdns          |
+                     | Reference    | This document  |
+                     +--------------+----------------+
+
+                     +--------------+----------------+
+                     | RR Type      | TXT            |
+                     | Node Name    | _rdns          |
+                     | Reference    | This document  |
+                     +--------------+----------------+
+
+5.2.  URI DNS Service Parameter
+
+   This document adds a parameter to the "Service Binding (SVCB)
+   Parameter" registry.  The allocation request is TBD, taken from the
+   to the First Come First Served range.
+
+   If present, this parameters indicates the URI template of an IP
+   Geolocation feed.  This is a string encoded as UTF-8 characters.
+
+   Name: uri
+
+   ~~~ ascii-art +--------------+----------------+ | SvcParamKey |
+   TBD | | Meaning | URI to an IP Geolocation feed | | Reference | This
+   document | +--------------+----------------+
+
+6.  Acknowledgments
 
    The authors would like to thank the following individuals for their
    useful input: John Todd.
 
-5.  References
+7.  References
 
-5.1.  Normative References
+7.1.  Normative References
+
+   [I-D.ietf-dnsop-svcb-https]
+              Schwartz, B., Bishop, M., and E. Nygren, "Service binding
+              and parameter specification via the DNS (DNS SVCB and
+              HTTPS RRs)", Work in Progress, Internet-Draft, draft-ietf-
+              dnsop-svcb-https-01, 13 July 2020, <http://www.ietf.org/
+              internet-drafts/draft-ietf-dnsop-svcb-https-01.txt>.
+
+   [ISO.3166.1alpha2]
+              ISO, "ISO 3166-1 decoding table",
+              <http://www.iso.org/iso/home/standards/country_codes/iso-
+              3166-1_decoding_table.htm>.
+
+
+
+
+Bretelle                   Expires 1 May 2021                   [Page 5]
+
+Internet-Draft             dns-recursive-iploc              October 2020
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -148,7 +292,12 @@ Internet-Draft             dns-recursive-iploc               August 2020
               Feeds", RFC 8805, DOI 10.17487/RFC8805, August 2020,
               <https://www.rfc-editor.org/info/rfc8805>.
 
-5.2.  Informative References
+7.2.  Informative References
+
+   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
+              Rose, "DNS Security Introduction and Requirements",
+              RFC 4033, DOI 10.17487/RFC4033, March 2005,
+              <https://www.rfc-editor.org/info/rfc4033>.
 
    [RFC7871]  Contavalli, C., van der Gaast, W., Lawrence, D., and W.
               Kumari, "Client Subnet in DNS Queries", RFC 7871,
@@ -160,15 +309,6 @@ Internet-Draft             dns-recursive-iploc               August 2020
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 Author's Address
-
-
-
-
-
-Bretelle                  Expires 1 March 2021                  [Page 3]
-
-Internet-Draft             dns-recursive-iploc               August 2020
-
 
    Emmanuel Bretelle
    Facebook
@@ -193,32 +333,4 @@ Internet-Draft             dns-recursive-iploc               August 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bretelle                  Expires 1 March 2021                  [Page 4]
+Bretelle                   Expires 1 May 2021                   [Page 6]
