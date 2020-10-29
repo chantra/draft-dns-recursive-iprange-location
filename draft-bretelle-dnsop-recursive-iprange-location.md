@@ -130,7 +130,7 @@ Name:  uri
 | Meaning      | URI to an IP Geolocation feed |
 | Reference    | This document  |
 +--------------+----------------+
-
+~~~
 
 # Acknowledgments
 
