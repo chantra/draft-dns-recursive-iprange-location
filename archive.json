@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2020-10-29T01:02:05.659554+00:00",
+  "timestamp": "2020-11-01T00:38:41.572930+00:00",
   "repo": "chantra/draft-dns-recursive-iprange-location",
   "labels": [
     {
@@ -62,9 +62,24 @@
       "labels": [],
       "body": "Likely bootstrapped off DNS by using an underscored prefix (say _rdnsipranges.example.com)\r\n\r\nOne approach would be to leverage good old TXT record. One needs to be wary about the potential size of this record and force TC to avoid amplification. This could be prevented by using a URI mechanism (via specially formatted TXT or actually leveraging a [URI RR type (RFC7553)](https://tools.ietf.org/html/rfc7553)?\r\n\r\nThat URI could lead to a [IP Geolocation feed (RFC8805)](https://tools.ietf.org/html/rfc8805).\r\n\r\nIf TXT, it could probably take the form of \"rfc8805:https://example.com/feed ips:2001:db8::/32|iata ips:198.51.100.0/24|iata\"....\r\n\r\nCapturing this here as it would make a natural contender: [Lists of Address Prefixes (APL RR)](https://tools.ietf.org/html/rfc3123), but this would limit to IP ranges only.",
       "createdAt": "2020-08-28T19:49:34Z",
-      "updatedAt": "2020-08-28T19:49:34Z",
+      "updatedAt": "2020-10-29T16:27:26Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "wtoorop",
+          "authorAssociation": "NONE",
+          "body": "FYI, RFC8805 mentions in 8.2 that previous versions of the document referenced a possible DNS-based schemes to discover and validate geofeeds:\r\n\r\nhttps://tools.ietf.org/html/draft-google-self-published-geofeeds-04#section-7.3",
+          "createdAt": "2020-10-29T14:52:55Z",
+          "updatedAt": "2020-10-29T14:52:55Z"
+        },
+        {
+          "author": "chantra",
+          "authorAssociation": "OWNER",
+          "body": "From the README:\r\n\r\n> Highlighted by wkumari in DNS OARC's mattermost: IP range holder to list the URL to a Geofeeds serve using the inetnum object OpsAWG list thread drafty-mbk-opsawg-finding-geofeeds",
+          "createdAt": "2020-10-29T16:27:26Z",
+          "updatedAt": "2020-10-29T16:27:26Z"
+        }
+      ]
     }
   ],
   "pulls": []
